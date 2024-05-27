@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Game.instance.test++;
+            GameManager.instance.test++;
             if (isGrounded)
             {
                 Jump();
@@ -63,9 +63,9 @@ public class Player : MonoBehaviour
             
             if (collision.gameObject.name == "Trigger")
             {
-                if (Game.instance != null)
+                if (GameManager.instance != null)
                 {
-                    Game.instance.ChangeDeathCounter(deathAmount);
+                    GameManager.instance.ChangeDeathCounter(deathAmount);
                     Debug.Log("Trigger");
                 }
                 else

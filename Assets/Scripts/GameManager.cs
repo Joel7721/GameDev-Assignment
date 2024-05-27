@@ -6,9 +6,9 @@ using UnityEngine;
 
 
 
-    public class Game : MonoBehaviour
+    public class GameManager : MonoBehaviour
     {
-        public static Game instance;
+        public static GameManager instance;
         public TMP_Text deathText;
         public int playerDeathCounter = 0;
     public int test;
