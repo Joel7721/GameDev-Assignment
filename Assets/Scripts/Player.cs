@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public float groundCheckDistance;
     private bool isGrounded;
 
+    public int deathAmount;
+
     void Start()
     {
 
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            Game.instance.test++;
             if (isGrounded)
             {
                 Jump();
@@ -55,10 +58,22 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Trigger")
-        {
-            Debug.Log("Trigger");
-        }
+       
+
+            
+            if (collision.gameObject.name == "Trigger")
+            {
+                if (Game.instance != null)
+                {
+                    Game.instance.ChangeDeathCounter(deathAmount);
+                    Debug.Log("Trigger");
+                }
+                else
+                {
+                    Debug.Log("Game manager is missing.");
+                }
+            }
+        
     }
 
     private void OnDrawGizmos()
