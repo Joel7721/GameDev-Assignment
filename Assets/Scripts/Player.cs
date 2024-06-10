@@ -112,6 +112,7 @@ public class Player : MonoBehaviour, IKillable
         //Destroy(gameObject);
 
         gameObject.SetActive(false);
+
         
     }
 
