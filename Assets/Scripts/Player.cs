@@ -1,8 +1,11 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IKillable
 {
     public float moveSpeed;
     public float jumpForce;
@@ -15,6 +18,10 @@ public class Player : MonoBehaviour
     private bool isGrounded;
 
     public int deathAmount;
+
+    public bool death = false;
+
+    public UnityEvent respawnPlayer;
 
     void Start()
     {
@@ -30,15 +37,19 @@ public class Player : MonoBehaviour
 
         Move();
 
+        Kill();
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameManager.instance.test++;
             if (isGrounded)
             {
                 Jump();
-
+                
             }
         }
+
+        
     }
 
     private void CollisionCheck()
@@ -67,6 +78,9 @@ public class Player : MonoBehaviour
                 {
                     GameManager.instance.ChangeDeathCounter(deathAmount);
                     Debug.Log("Trigger");
+                    death = true;
+                    
+
                 }
                 else
                 {
@@ -75,6 +89,35 @@ public class Player : MonoBehaviour
             }
         
     }
+    public void Kill()
+    {
+        if (death == true)
+        {
+            
+            //Destroy(gameObject);
+
+            respawnPlayer.Invoke();
+            
+        }
+    }
+
+    public void testInvoke()
+    {
+        Debug.Log("Test Invoke");
+    }
+
+    public void killPlayer()
+    {
+        //Debug.Log("dead");
+        //Destroy(gameObject);
+
+        gameObject.SetActive(false);
+        
+    }
+
+  
+
+   
 
     private void OnDrawGizmos()
     {
