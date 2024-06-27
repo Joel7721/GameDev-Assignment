@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-//I still need to implement a way for the player to repawn after being killed
+//I still need to implement a way for the player to respawn after being killed
 //I will also later implement some player interactions, but that will be added when I have more traps coded
 
 public class Player : MonoBehaviour, IKillable
