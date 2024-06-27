@@ -72,7 +72,7 @@ public class Player : MonoBehaviour, IKillable
        
 
             
-            if (collision.gameObject.name == "Trigger")
+            if (collision.gameObject.name == "Trigger" || collision.gameObject.name == "Trigger_Square")
             {
                 if (GameManager.instance != null)
                 {
