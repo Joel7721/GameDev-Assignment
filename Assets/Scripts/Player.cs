@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -27,10 +28,35 @@ public class Player : MonoBehaviour, IKillable
 
     public UnityEvent respawnPlayer;
 
-    void Start()
-    {
 
+    
+
+    //public float newCameraSize = 5f;
+    //public Vector3 newCameraPosition = new Vector3(0f, 0f, -10f);
+
+
+
+   
+
+    private void Awake()
+    {
+       
     }
+
+    private void Start()
+    {
+      
+
+        Camera mainCamera = Camera.main;
+
+        mainCamera.orthographicSize = 5f;
+
+        mainCamera.transform.position = new Vector3(0f, 0f, -10f);
+
+        
+
+       
+}
 
 
     void Update()
@@ -76,14 +102,16 @@ public class Player : MonoBehaviour, IKillable
        
 
             
-            if (collision.gameObject.name == "Trigger" || collision.gameObject.name == "Trigger_Square")
+            if (collision.gameObject.name == "Trigger" || collision.gameObject.name == "Trigger_Square" || collision.gameObject.name == "Enemy")
             {
                 if (GameManager.instance != null)
                 {
                     GameManager.instance.ChangeDeathCounter(deathAmount);
                     Debug.Log("Trigger");
-                    death = true;
-                    
+                    //death = true;
+                    respawnPlayer.Invoke();
+
+                
 
                 }
                 else
@@ -91,8 +119,47 @@ public class Player : MonoBehaviour, IKillable
                     Debug.Log("Game manager is missing.");
                 }
             }
+
+        if(collision.gameObject.name == "CameraTrigger")
+        {
+            
+            Debug.Log("Touch Red");
+            moveCamera1();
+
+        }
+      
+        
+
+        
+
+        
+        /*
+        if (collision.gameObject.name == "CameraTrigger" && collision.gameObject.name == "CameraTrigger2")
+        {
+            
+            Debug.Log("Fail collision");
+
+
+
+            Camera mainCamera = Camera.main;
+
+            if(mainCamera != null)
+            {
+                mainCamera.orthographicSize = 5f;
+
+                mainCamera.transform.position = new Vector3(10f, 10f, 10f);
+            }
+            else
+            {
+                Debug.LogError("No Camera");
+            }
+        }*/
+
+        
         
     }
+
+    
     public void Kill()
     {
         if (death == true)
@@ -115,14 +182,50 @@ public class Player : MonoBehaviour, IKillable
         //Debug.Log("dead");
         //Destroy(gameObject);
 
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
+
+        
 
         
     }
 
-  
+    public void movePlayer1()
+    {
+        transform.position = new Vector3(-7.47f, 1.83f);
+    }
+
+    public void movePlayer2()
+    {
+        transform.position = new Vector3(-7.47f, -2.57f);
+    }
+
+
+    public void moveCamera1()
+    {
+
+        
+
+        Camera mainCamera = Camera.main;
+
+        if (mainCamera != null)
+        {
+            mainCamera.orthographicSize = 5f;
+
+            mainCamera.transform.position = new Vector3(10f, 10f, 10f);
+        }
+        else
+        {
+            Debug.LogError("No Camera");
+        }
+    }
+
+
 
    
+
+
+   
+
 
     private void OnDrawGizmos()
     {
