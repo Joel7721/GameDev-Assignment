@@ -7,10 +7,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-//I still need to implement a way for the player to respawn after being killed
-//I will also later implement some player interactions, but that will be added when I have more traps coded
 
-public class Player : MonoBehaviour, IKillable
+public class Player : MonoBehaviour//, IKillable
 {
     public float moveSpeed;
     public float jumpForce;
@@ -24,10 +22,8 @@ public class Player : MonoBehaviour, IKillable
 
     public int deathAmount;
 
-    public bool death = false;
 
-    bool canMove = true;
-
+    //variables for win condition
     public bool win1 = false;
     public bool win2 = false;
     public bool win3 = false;
@@ -40,7 +36,7 @@ public class Player : MonoBehaviour, IKillable
     public bool win10 = false;
 
 
-
+    //Events used to ensure that when something happes to one character it happens to the other.
     public UnityEvent respawnPlayer;
     public UnityEvent moveOne;
     public UnityEvent moveTwo;
@@ -56,14 +52,6 @@ public class Player : MonoBehaviour, IKillable
     public UnityEvent restart;
 
 
-
-    //public float newCameraSize = 5f;
-    //public Vector3 newCameraPosition = new Vector3(0f, 0f, -10f);
-
-
-
-
-
     private void Awake()
     {
        
@@ -72,13 +60,11 @@ public class Player : MonoBehaviour, IKillable
     private void Start()
     {
 
+        //Positions camera & player in the correct position when the game starts
 
         startingCamera();
 
         respawnPlayer.Invoke();
-
-        
-
 
     }
 
@@ -87,18 +73,14 @@ public class Player : MonoBehaviour, IKillable
     {
         CollisionCheck();
 
-        if (canMove = true)
-        {
-            movingInput = Input.GetAxisRaw("Horizontal");
-        }
-        else
-        {
-
-        }
+        
+        
+        movingInput = Input.GetAxisRaw("Horizontal");
+        
 
         Move();
 
-        Kill();
+  
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -110,11 +92,6 @@ public class Player : MonoBehaviour, IKillable
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            
-            
-        }
 
         level1();
         level2();
@@ -153,17 +130,16 @@ public class Player : MonoBehaviour, IKillable
     {
        
         
-            
+            //If the player touches one of these objects they "die". Player resets at first level.
             if (collision.gameObject.name == "Trigger" || collision.gameObject.name == "Trigger_Square" || collision.gameObject.name == "Enemy")
             {
                 if (GameManager.instance != null)
                 {
                     GameManager.instance.ChangeDeathCounter(deathAmount);
-                    Debug.Log("Trigger");
-                    //death = true;
+              
                     respawnPlayer.Invoke();
 
-                startingCamera();
+                    startingCamera();
 
                     restart.Invoke();
 
@@ -177,6 +153,8 @@ public class Player : MonoBehaviour, IKillable
                 }
             }
 
+
+        //The following "CameraTrigger" if statements use the "moveCamera" methods to move the camera each time the player beats a level. This also sets win# to true depending on the level.
         if(collision.gameObject.name == "CameraTrigger")
         {
             
@@ -277,35 +255,7 @@ public class Player : MonoBehaviour, IKillable
 
     }
 
-    
-    public void Kill()
-    {
-        if (death == true)
-        {
-            
-            //Destroy(gameObject);
-
-            respawnPlayer.Invoke();
-            
-        }
-    }
-
-    public void testInvoke()
-    {
-        Debug.Log("Test Invoke");
-    }
-
-    public void killPlayer()
-    {
-        //Debug.Log("dead");
-        //Destroy(gameObject);
-
-        //gameObject.SetActive(false);
-
-        
-    }
-
-    
+    //Move player methods teleports the player to next level
 
     public void movePlayer1()
     {
@@ -416,7 +366,7 @@ public class Player : MonoBehaviour, IKillable
     }
 
    
-
+    //Camera methods control camera movement and size
     public void startingCamera()
     {
         Camera mainCamera = Camera.main;
@@ -440,8 +390,6 @@ public class Player : MonoBehaviour, IKillable
 
             mainCamera.transform.position = new Vector3(29.33f, -1.97f, -10f);
 
-            //canMove = false;
-
             moveOne.Invoke();
         }
         else
@@ -463,8 +411,6 @@ public class Player : MonoBehaviour, IKillable
 
             mainCamera.transform.position = new Vector3(60.19f, 0.97f, -10f);
 
-            //canMove = false;
-
             moveTwo.Invoke();
         }
         else
@@ -485,8 +431,6 @@ public class Player : MonoBehaviour, IKillable
             mainCamera.orthographicSize = 5.057717f;
 
             mainCamera.transform.position = new Vector3(85.57f, 1.31f, -10f);
-
-            //canMove = false;
 
             moveThree.Invoke();
 
@@ -511,8 +455,6 @@ public class Player : MonoBehaviour, IKillable
 
             mainCamera.transform.position = new Vector3(136.1f, 9.5f, -10f);
 
-            //canMove = false;
-
             moveFour.Invoke();
 
 
@@ -535,8 +477,6 @@ public class Player : MonoBehaviour, IKillable
             mainCamera.orthographicSize = 5f;
 
             mainCamera.transform.position = new Vector3(-0.1f, -52.12f, -10f);
-
-            //canMove = false;
 
             moveFive.Invoke();
 
@@ -561,8 +501,6 @@ public class Player : MonoBehaviour, IKillable
 
             mainCamera.transform.position = new Vector3(24.87f, -51.93f, -10f);
 
-            //canMove = false;
-
             moveSix.Invoke();
 
 
@@ -585,8 +523,6 @@ public class Player : MonoBehaviour, IKillable
             mainCamera.orthographicSize = 5f;
 
             mainCamera.transform.position = new Vector3(51.76f, -52.13f, -10f);
-
-            //canMove = false;
 
             moveSeven.Invoke();
 
@@ -611,8 +547,6 @@ public class Player : MonoBehaviour, IKillable
 
             mainCamera.transform.position = new Vector3(77.23f, -51.88f, -10f);
 
-            //canMove = false;
-
             moveEight.Invoke();
 
 
@@ -635,8 +569,6 @@ public class Player : MonoBehaviour, IKillable
             mainCamera.orthographicSize = 22.04757f;
 
             mainCamera.transform.position = new Vector3(136.8f, -45.4f, -10f);
-
-            //canMove = false;
 
             moveNine.Invoke();
 
@@ -661,8 +593,6 @@ public class Player : MonoBehaviour, IKillable
 
             mainCamera.transform.position = new Vector3(214.18f, -32.86f, -10f);
 
-            //canMove = false;
-
             moveTen.Invoke();
 
 
@@ -673,6 +603,7 @@ public class Player : MonoBehaviour, IKillable
         }
     }
 
+    //Allows the player to choose the level by pressing any number between 1-0 on the keyboard (includes 1 & 0)
     public void level1()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -773,6 +704,7 @@ public class Player : MonoBehaviour, IKillable
         }
     }
 
+    //Checks if all levels have been completed properly. This means that the player has gone through each level without "dying". If all 10 are true, player is teleported to win "screen".
     public void winCondition()
     {
         if(win1 == true &&  win2 == true && win3 == true && win4 == true && win5 == true && win6 == true && win7 == true && win8 == true && win9 == true && win10 == true)
@@ -785,6 +717,7 @@ public class Player : MonoBehaviour, IKillable
         }
     }
 
+    //Resets all win conditions to false when player "dies"
     public void resetWinCondition()
     {
         win1 = false;
