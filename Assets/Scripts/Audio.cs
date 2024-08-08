@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Audio : MonoBehaviour
 {
-    // Start is called before the first frame update
+   
 
     private AudioSource audioSource;
     void Start()
@@ -12,12 +12,12 @@ public class Audio : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            // Toggle the mute state
+            // Toggle the mute state by pressing M
             audioSource.mute = !audioSource.mute;
         }
     }
